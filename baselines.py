@@ -75,10 +75,8 @@ class HistoryBR(object):
         lo, hi = state[:2]
         if self.name == 'p1':
             oppo_hist = state[3]
-            u_idx = 0
         elif self.name == 'p2':
             oppo_hist = state[2]
-            u_idx = 1
 
         if len(oppo_hist) > 0:
             oppo_last_a = self.last_hi - oppo_hist[-1]

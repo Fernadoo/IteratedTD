@@ -4,7 +4,11 @@ import numpy as np
 
 
 class PoissonCH(object):
-    """PoissonCH agent always p1"""
+    """PoissonCH agent:
+        1. Observe to update Gamma conjugate
+           -> expected lambda for Poisson modelling
+        2. BR to the Possion modelling
+    """
 
     def __init__(self, name, gamma_a=15, gamma_b=10):
         self.name = name
@@ -17,10 +21,8 @@ class PoissonCH(object):
         lo, hi = state.lo, state.hi
         if self.name == 'p1':
             oppo_hist = state.hist_a2
-            u_idx = 0
         elif self.name == 'p2':
             oppo_hist = state.hist_a1
-            u_idx = 1
         if len(oppo_hist) > 0:  # except for the first round
             self.oppo_hist.append(self.last_hi - oppo_hist[-1])
         self.last_hi = hi

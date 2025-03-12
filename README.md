@@ -8,12 +8,13 @@ Some quick notations:
 
 - $a_i^t$ denotes the action of agent $i$ in round $t$
 - $u_i^t$ denotes the payoff (or utility / immediate reward) of agent $i$ in round $t$ 
+- $N_{a_i}$ means the number of times this particular action $a_i \in \mathcal{A}_i$ has been played by agent $i$ up to this moment
 
 | Strategies        | Rules                                                        | Note                         |
 | ----------------- | ------------------------------------------------------------ | ---------------------------- |
 | PerfectlyRational | $a_i^t \gets 2$                                              | Play NE                      |
 | Memory1BR         | $a_i^t \gets max(a_j^{t-1}, 2)$                              | BR to the last step          |
-| HistoryBR         | $a_j^{mixed} \gets Boltzman({N_{a_{j}}})$, then $a_i^t \gets BR(a_j^{mixed})$ | BR to the hist. freq.        |
+| HistoryBR         | $a_j^{mixed} \gets Boltzmann({N_{a_{j}}})$, then $a_i^t \gets BR(a_j^{mixed})$ | BR to the hist. freq.        |
 | TitForTat         | $a_i^t \gets a_j^{t-1}$                                      | Do whatever OP did last step |
 | PoissonCH         | $\lambda \gets Gamma(N_{a_j})$, then $a_i^t \gets BR(a_j^{Poisson(\lambda)})$ | BR to the Poisson dist.      |
 
