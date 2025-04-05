@@ -6,6 +6,13 @@ def get_args():
 
     # Adding arguments
     parser.add_argument(
+        '-hi', '--highest',
+        type=int,
+        default=100,
+        help='The highest possible bid (default: 100)'
+    )
+
+    parser.add_argument(
         '-a', '--agents',
         type=str,
         nargs=2,
@@ -52,6 +59,7 @@ def get_args():
     args = parser.parse_args()
 
     # Print the parsed arguments (for demonstration purposes)
+    print(f'Hightest possible bid: {args.highest}')
     print(f'Types of agents: {args.agents}')
     print(f'Max length of iteration: {args.max_len}')
     print(f'Random seed: {args.seed}')
@@ -69,14 +77,22 @@ if __name__ == '__main__':
 
     import numpy as np
 
+    PLAYER_POOL = {
+        "TitForTat": TitForTat,
+        "PerfectlyRational": PerfectlyRational,
+        "Memory1BR": Memory1BR,
+        "HistoryBR": HistoryBR,
+        "PoissonCH": PoissonCH,
+    }
+
     print('--- Settings ---')
     args = get_args()
 
-    p1 = locals()[args.agents[0]]('p1')
-    p2 = locals()[args.agents[1]]('p2')
+    p1 = PLAYER_POOL[args.agents[0]]('p1')
+    p2 = PLAYER_POOL[args.agents[1]]('p2')
 
     print('\n--- Game Starts ---')
-    ITDgame = Game(p1, p2, seed=args.seed, max_len=args.max_len)
+    ITDgame = Game(p1, p2, seed=args.seed, max_len=args.max_len, hi=args.highest)
     hist_u1, hist_u2, hist_a1, hist_a2, hist_reg1, hist_reg2 = ITDgame.play()
 
     if (not args.show_payoff) and (not args.show_win_rate) and not (args.show_regret):
@@ -92,8 +108,8 @@ if __name__ == '__main__':
     if args.show_payoff >= 1:
         print(f"Total Payoff: P1 ({np.sum(hist_u1)}) v.s. P2 ({np.sum(hist_u2)})")
     if args.show_payoff == 2:
-        axes[0][0].plot(np.arange(args.max_len), hist_a1, color='tab:blue', label='p1')
-        axes[0][0].plot(np.arange(args.max_len), hist_a2, color='tab:orange', label='p2')
+        axes[0][0].plot(np.arange(args.max_len), hist_u1, color='tab:blue', label='p1')
+        axes[0][0].plot(np.arange(args.max_len), hist_u2, color='tab:orange', label='p2')
         axes[0][0].legend()
         axes[0][0].set_title('Payoff')
 

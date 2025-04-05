@@ -6,7 +6,7 @@ def poisson(k, lam):
 
 
 def TD_payoff(a1, a2):
-    return min(a1, a2) - 2 * np.sign(a1 - a2), min(a1, a2) + 2 * np.sign(a1 - a2)
+    return min(a1, a2) + 2 * np.sign(a2 - a1), min(a1, a2) + 2 * np.sign(a1 - a2)
 
 
 def TD_regret(lo, hi, a1, a2):

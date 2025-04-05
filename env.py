@@ -18,23 +18,23 @@ class Game(object):
         ii) transit to a shrunk stage with high := min(a1, a2)
     """
 
-    def __init__(self, p1, p2, seed=0, max_len=100, trans_p=2):
-        self.reset()
-        # we set p1 as our AI agent and p2 as a pre-defined one
+    def __init__(self, p1, p2, seed=0, max_len=100, lo=2, hi=100, trans_p=1.1):
+        self.reset(lo, hi)
+
         self.p1 = p1
         self.p2 = p2
-        self.hist_u1 = []
+        self.hist_u1 = []  # historical utilities
         self.hist_u2 = []
-        self.hist_a1 = []
+        self.hist_a1 = []  # historical actions (biddins)
         self.hist_a2 = []
-        self.hist_reg1 = []
+        self.hist_reg1 = []  # historical regrets
         self.hist_reg2 = []
 
-        # for iterative settings
+        # for episode settings
         self.seed = seed
         self.cnt = 0
         self.max_len = max_len
-        self.trans_p = trans_p
+        self.trans_p = trans_p  # p > 1 by defaut => repeated game
 
     def reset(self, lo=2, hi=100):
         self.lo = lo
@@ -72,14 +72,12 @@ class Game(object):
 
 
 if __name__ == '__main__':
-    from baselines import TitForTat, PerfectlyRational
+    from baselines import PerfectlyRational
     from ch_agents import PoissonCH
 
-    # p1 = TitForTat('p1')
     p1 = PoissonCH('p1')
-    # p2 = TitForTat('p2')
     p2 = PerfectlyRational('p2')
 
     ITDgame = Game(p1, p2, seed=0, epi_len_max=300)
     hist_u1, hist_u2, hist_a1, hist_a2, hist_reg1, hist_reg2 = ITDgame.play()
-    print(u1_hist, u2_hist)
+    print(hist_u1, hist_u2)
